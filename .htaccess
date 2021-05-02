@@ -1,0 +1,24 @@
+# Disable Directory listing
+Options -Indexes
+
+# Hide a specific file
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Hide a specific file
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Deny every js by default
+<Files *.js>
+  deny from all
+</Files>
+
+# But allow nodejs.js
+<Files index.js>
+  allow from all
+</Files>
