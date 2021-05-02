@@ -17,5 +17,7 @@ router.get('/:channel/:thread', [auth], threadController.show);
 // Lista Thread
 router.post('/:channel/:thread/replies', [auth], repliesController.store);
 
+// Remove Thread
+router.delete('/:channel/:thread', [auth], threadController.delete);
 
 module.exports = router;

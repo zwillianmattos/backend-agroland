@@ -55,7 +55,6 @@ module.exports = {
                         situation: 0
                     }, { where: { id: user.id } });
 
-                    console.log(data)
 
                     res.status(200).send({
                         status: true,
