@@ -1,5 +1,5 @@
 
-const { Channel, Thread, User, Replies } = require('../../models');
+const { Channel, Thread, User, Replies } = require('../../../database/models');
 const Sequelize = require('sequelize');
 const { empty } = require('../../utils/utils');
 

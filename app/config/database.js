@@ -14,10 +14,10 @@ module.exports = {
         dialect: 'mysql'
     },
     production: {
-        username: '',
-        password: '',
-        database: '',
-        host: '',
+        username: 'u975537847_plantcare',
+        password: '4KlbmHmwDk!',
+        database: 'u975537847_plantcare',
+        host: 'sql124.main-hosting.eu',
         dialect: 'mysql'
     }
 };

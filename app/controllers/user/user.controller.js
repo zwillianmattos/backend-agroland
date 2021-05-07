@@ -1,6 +1,6 @@
 require('../../config/dotenv');
 const { empty } = require('../../utils/utils');
-const { User } = require('../../models');
+const { User } = require('../../../database/models');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const mail = require('../../services/mail');
