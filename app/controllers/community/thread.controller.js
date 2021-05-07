@@ -1,5 +1,5 @@
 
-const { Channel, Thread, User, Replies } = require('../../models');
+const { Channel, Thread, User, Replies } = require('../../../database/models');
 const Sequelize = require('sequelize');
 
 module.exports = {
@@ -23,18 +23,21 @@ module.exports = {
             ]
 
             if (channel != null) {
-                include.push({
-                    model: Replies,
-                    as: 'Replies',
-                    attributes: ['id', 'body', 'createdAt', 'updatedAt'],
-                    required: false,
-                    include: {
-                        model: User,
-                        as: 'User',
-                        attributes: ['id', 'name'],
-                        required: true,
-                    },
-                })
+            include.push({
+                model: Replies,
+                as: 'Replies',
+                attributes: ['id', 'body', 'createdAt', 'updatedAt'],
+                required: false,
+                where: {
+                    excluded: 0
+                },
+                include: {
+                    model: User,
+                    as: 'User',
+                    attributes: ['id', 'name'],
+                    required: true,
+                },
+            })
             }
 
 

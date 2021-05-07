@@ -1,16 +1,19 @@
-FROM node:alpine
+FROM node:10.16.0
+RUN npm install -g --unsafe-perm prisma2@2.0.0-preview-12
 
-RUN apk add --update bash && rm -rf /var/cache/apk/*
+RUN mkdir /app
+WORKDIR /app
 
-RUN apk add --update nodejs nodejs-npm
+ENV NODE_ENV development
 
-WORKDIR /usr/backend
+COPY package*.json /app
 
-COPY package*.json ./
-RUN npm install --global
+COPY . /app
 
-COPY . .
+RUN npm install
+RUN npm audit fix --force
 
 EXPOSE 3000
+
 
 RUN ["chmod", "+x", "./start.sh"]

@@ -1,4 +1,4 @@
-const { Channel } = require('../../models');
+const { Channel } = require('../../../database/models');
 const Sequelize = require('sequelize');
 
 module.exports = {
