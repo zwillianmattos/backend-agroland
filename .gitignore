@@ -2,3 +2,5 @@ node_modules
 uploads
 logs/**
 .env
+.env.dev
+.env.test
