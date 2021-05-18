@@ -46,10 +46,10 @@ module.exports = {
             })
 
             if(!removido[0]){
-                throw("Falha ao remover comentario")
+                throw("Falha ao excluir comentário")
             }
                 
-            res.status(200).json({status: true, message:"Comentario excluido"})
+            res.status(200).json({status: true, message:"Comentário excluído"})
 
         } catch (e) {
             console.log(e)
