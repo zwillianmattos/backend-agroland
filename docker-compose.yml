@@ -4,10 +4,13 @@ services:
     app:
         build: .
         command: npm start
+        restart: always
         ports:
             - '3000:3000'
         volumes:
             - .:/usr/backend_plant_care
+        links:
+            - db
     db:
         image: mysql:5.7
         ports:
@@ -20,5 +23,4 @@ services:
         environment: 
             MYSQL_ROOT_USER:  root
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_USER: root
-            MYSQL_PASSWORD: root
+        
