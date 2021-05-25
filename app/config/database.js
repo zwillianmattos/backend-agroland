@@ -3,7 +3,7 @@ module.exports = {
         username: 'root',
         password: 'root',
         database: 'plant_care',
-        host: 'localhost',
+        host: 'host.docker.internal',
         dialect: 'mysql',
     },
     test: {
