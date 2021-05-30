@@ -91,36 +91,20 @@ module.exports = {
             const { channel, thread } = req.params
             const user = req.user
 
-            let threadFind = await Thread.findOne({
-                attributes: ['id', 'title', 'body', 'createdAt', 'updatedAt'],
-                where: {
-                    channel: channel,
-                    id: thread,
-                    user: user.id
-                }
-            })
-
-            if (empty(threadFind)) {
-                throw ("Ocorreu um erro ao remover thread!");
-            }
-
-            Thread.update({
+            let removido = await Thread.update({
                 excluded: 1,
             }, {
                 where: {
                     channel: channel,
                     id: thread,
-                    user: user.id
+                    user: user.id,
+                    excluded: 0,
                 }
-            }).then(async (t) => {
-                await Replies.update({
-                    excluded: 1,
-                }, {
-                    where: {
-                        thread: thread
-                    }
-                })
             })
+
+            if(!removido[0]){
+                throw("Falha ao excluir Thread")
+            }
 
             res.status(200).json({
                 status: true,
