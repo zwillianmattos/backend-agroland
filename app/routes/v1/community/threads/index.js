@@ -24,4 +24,10 @@ router.post('/:channel/:thread/replies', [auth], repliesController.store);
 // Remover comentario da thread
 router.delete('/:channel/:thread/:replie', [auth], repliesController.delete);
 
+// Gravar Replies
+router.post('/:channel/:thread/replies', [auth], repliesController.store);
+
+// Update Replies
+router.put('/:channel/:thread/replies/:id', [auth], repliesController.update);
+
 module.exports = router;

@@ -17,9 +17,9 @@ module.exports = function (req, res, next) {
         req.user = decoded;
 
         // Verify user access another account iformation 
-        if( !empty(req.params.id) && req.params.id != req.user.id ) {
-            throw "Conta de token inválida";
-        }
+        // if( !empty(req.params.id) && req.params.id != req.user.id ) {
+        //     throw "Conta de token inválida";
+        // }
         next();
     } catch (ex) {
         //if invalid token
