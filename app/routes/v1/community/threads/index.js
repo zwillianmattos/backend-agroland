@@ -18,6 +18,9 @@ router.get('/:channel/:thread', [auth], threadController.show);
 // Remove Thread
 router.delete('/:channel/:thread', [auth], threadController.delete);
 
+// Update Thread
+router.put('/:channel/:thread', [auth], threadController.update);
+
 // Lista comentarios da Thread
 router.post('/:channel/:thread/replies', [auth], repliesController.store);
 

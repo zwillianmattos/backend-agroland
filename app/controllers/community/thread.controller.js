@@ -39,6 +39,8 @@ module.exports = {
                     attributes: ['id', 'name'],
                     required: true,
                 },
+                limit: 2,
+                offset: 2, 
             })
             }
 
@@ -123,6 +125,47 @@ module.exports = {
             res.status(200).json({
                 status: true,
                 message: "Thread excluida com sucesso!!!"
+            })
+
+        } catch (e) {
+            console.log(e)
+            res.status(500).json({
+                status: false,
+                message: e
+            })
+        }
+    },
+    async update(req, res){
+        try {
+            const { title, body } = req.body;
+            const user = req.user;
+            const { thread } = req.params;
+
+            let data = {}
+
+            if( title ) {
+                data.title = title
+            }
+            
+            if( body ) {
+                data.body = body
+            }
+
+            const update = await Thread.update(data, {
+                where: {
+                    id: thread,
+                    user: user.id,
+                    excluded: 0,
+                }
+            })
+
+            if(!update[0]){
+                throw("Falha ao atualizar Thread")
+            }
+            
+            res.status(200).json({
+                status: true,
+                message: "Thread atualizada com sucesso!!!",
             })
 
         } catch (e) {
