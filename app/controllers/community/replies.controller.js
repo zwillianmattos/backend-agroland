@@ -30,13 +30,12 @@ module.exports = {
         try {
             const { body } = req.body;
             const user = req.user;
-            const { id, channel, thread } = req.params;
+            const { id, thread } = req.params;
 
             const replie = await Replies.update({
                 body: body
             }, {
                 where: {
-                    channel: channel,
                     thread: thread,
                     id: id,
                     user: user.id,
@@ -44,10 +43,14 @@ module.exports = {
                 }
             })
 
+
+            if(!replie[0]){
+                throw("Falha ao atualizar replie")
+            }
+            
             res.status(200).json({
                 status: true,
                 message: "Replie atualizada com sucesso!!!",
-                data: replie
             })
 
         } catch (e) {
