@@ -10,4 +10,10 @@ router.get('/', [auth], controller.show);
 // Gravar
 router.post('/', [auth], controller.store);
 
+// Lista Channel
+router.get('/:channel', [auth], channelController.show);
+
+// Remove Channel
+router.delete('/:channel', [auth], channelController.delete);
+
 module.exports = router;
