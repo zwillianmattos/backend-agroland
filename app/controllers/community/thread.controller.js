@@ -20,7 +20,7 @@ module.exports = {
 
             let include = [
 
-                { model: Channel, as: 'Channel', attributes: ['name', 'slug'], required: true, },
+                { model: Channel, as: 'Channel', attributes: ['id', 'name', 'slug'], required: true, },
                 { model: User, as: 'User', attributes: ['id', 'name'], required: true, },
                 {
                     model: Replies,
