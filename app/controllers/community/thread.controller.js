@@ -19,34 +19,30 @@ module.exports = {
             }
 
             let include = [
-                { model: User, as: 'User', attributes: ['id', 'name'], required: true, },
+
                 { model: Channel, as: 'Channel', attributes: ['name', 'slug'], required: true, },
-
+                { model: User, as: 'User', attributes: ['id', 'name'], required: true, },
+                {
+                    model: Replies,
+                    as: 'Replies',
+                    attributes: ['id', 'body', 'createdAt', 'updatedAt'],
+                    required: false,
+                    where: {
+                        excluded: 0
+                    },
+                    // include: {
+                    //     model: User,
+                    //     as: 'user_comment',
+                    //     attributes: ['id', 'name'],
+                    //     required: false,
+                    // },
+                    limit: !channel && !thread ? 3 : null,
+                },
             ]
-
-            if (channel != null) {
-            include.push({
-                model: Replies,
-                as: 'Replies',
-                attributes: ['id', 'body', 'createdAt', 'updatedAt'],
-                required: false,
-                where: {
-                    excluded: 0
-                },
-                include: {
-                    model: User,
-                    as: 'User',
-                    attributes: ['id', 'name'],
-                    required: true,
-                },
-                limit: 2,
-                offset: 2, 
-            })
-            }
-
 
             const channels = await Thread.findAll({
                 attributes: ['id', 'title', 'body', 'createdAt', 'updatedAt'],
+                required: true,
                 where: channel != null ? where : {
                     excluded: 0
                 },
@@ -102,8 +98,8 @@ module.exports = {
                 }
             })
 
-            if(!removido[0]){
-                throw("Falha ao excluir Thread")
+            if (!removido[0]) {
+                throw ("Falha ao excluir Thread")
             }
 
             res.status(200).json({
@@ -119,7 +115,7 @@ module.exports = {
             })
         }
     },
-    async update(req, res){
+    async update(req, res) {
         try {
             const { title, body } = req.body;
             const user = req.user;
@@ -127,11 +123,11 @@ module.exports = {
 
             let data = {}
 
-            if( title ) {
+            if (title) {
                 data.title = title
             }
-            
-            if( body ) {
+
+            if (body) {
                 data.body = body
             }
 
@@ -143,10 +139,10 @@ module.exports = {
                 }
             })
 
-            if(!update[0]){
-                throw("Falha ao atualizar Thread")
+            if (!update[0]) {
+                throw ("Falha ao atualizar Thread")
             }
-            
+
             res.status(200).json({
                 status: true,
                 message: "Thread atualizada com sucesso!!!",

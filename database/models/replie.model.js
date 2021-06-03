@@ -24,6 +24,11 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: 'user'
         })
 
+        Replies.hasOne(model.User, {
+            foreignKey: 'user',
+            as: 'user_comment'
+        })
+
         Replies.belongsTo(model.Thread, {
             foreignKey: 'thread'
         })
