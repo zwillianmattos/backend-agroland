@@ -1,4 +1,4 @@
-const { Channel } = require('../../../database/models');
+const { Channel, Thread, Replies } = require('../../../database/models');
 const Sequelize = require('sequelize');
 
 module.exports = {
@@ -41,41 +41,45 @@ module.exports = {
     async delete(req, res) {
         try {
             const { channel } = req.params
-            const user = req.user
 
-            let channelFind = await Channel.findOne({
-                attributes: ['id', 'name', 'slug', 'createdAt', 'updatedAt'],
-                where: {
-                    channel: channel,
-                    user: user.id
-                }
-            })
-
-            if (empty(channelFind)) {
-                throw ("Ocorreu um erro ao remover Channel!");
-            }
-
-            Channel.update({
+            let channelRemoved = await Channel.update({
                 excluded: 1,
             }, {
                 where: {
-                    channel: channel,
-                    user: user.id
+                    id: channel,
+                    excluded: 0,
                 }
-            }).then(async (t) => {
-                await Replies.update({
-                    excluded: 1,
-                }, {
-                    where: {
-                        channel: channel
-                    }
-                })
             })
 
-            res.status(200).json({
-                status: true,
-                message: "Channel excluído com sucesso!!!"
+            if (!channelRemoved[0]) {
+                throw ("Falha ao excluir Channel")
+            }
+
+            await Thread.update({
+                excluded: 1,
+            }, {
+                where: {
+                    channel: channel
+                }
             })
+
+            const threadExcluded = await Thread.findAll({
+                attributes: ['id'],
+                where: {
+                    excluded: 1,
+                    channel: channel
+                }
+            })
+
+            await Replies.update({
+                excluded: 1,
+            }, {
+                where: {
+                    thread: threadExcluded.map( x => x.id )
+                }
+            })
+
+            res.status(200).json({ status: true, message: "Comentário excluído" })
 
         } catch (e) {
             console.log(e)

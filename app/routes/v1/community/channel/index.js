@@ -11,9 +11,9 @@ router.get('/', [auth], controller.show);
 router.post('/', [auth], controller.store);
 
 // Lista Channel
-router.get('/:channel', [auth], channelController.show);
+router.get('/:channel', [auth], controller.show);
 
 // Remove Channel
-router.delete('/:channel', [auth], channelController.delete);
+router.delete('/:channel', [auth], controller.delete);
 
 module.exports = router;
