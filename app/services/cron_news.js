@@ -5,7 +5,8 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { setCache, getCache } = require("./cache");
 
-async function init() {
+module.exports = async () => {
+
     const newsData = await new Promise((resole, reject) => {
 
         console.log("[Loading data from]: Cron")
@@ -80,14 +81,12 @@ async function init() {
     if (setCache("news", newsData)) {
         console.log(newsData)
 
-        fs = require('fs');
-        await fs.writeFile('news.json', JSON.stringify(newsData), (err, data) => {
+        // fs = require('fs');
+        // await fs.writeFile('news.json', JSON.stringify(newsData), (err, data) => {
 
-        } );
+        // });
 
         return newsData;
     }
     return false;
 }
-
-init();
