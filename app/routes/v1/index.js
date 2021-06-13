@@ -5,4 +5,5 @@ router.use('/user', require('./user'));
 router.use('/ebooks', require('./education/ebook'));
 router.use('/threads', require('./community/threads'));
 router.use('/channel', require('./community/channel'));
+router.use('/news', require('./news'));
 module.exports = router;
