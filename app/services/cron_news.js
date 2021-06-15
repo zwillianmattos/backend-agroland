@@ -47,13 +47,25 @@ module.exports = async () => {
                         const categoria = post.querySelector("h3")
                         const descricao = post.querySelector(".fl-post-excerpt > p")
                         const imgData = post.querySelector(".fl-post-image img")
-                        const img = imgData.getAttribute('data-srcset').split(",");
+                        let img = imgData.getAttribute('data-srcset')
+                        
+                        if( typeof img != "undefined" && img != null ) {
+                            img = img.split(",")
+                            img = img[0].split(" ")[0]
+                        }
+                        
 
                         const dataHtml = post.querySelector(".data-hora").innerHTML.trim()
-                        const dx = dataHtml.split(" às ")
-                        const data = dx[0]
-                        const hora = dx[1].split("h")
-                        const dataHora = new Date(`${data} ${hora[0]}:${hora[1]}:00`)
+                        let dataFormatada =  null;
+
+                        if( typeof dataHtml != "undefined" && dataHtml  != null ) {
+                            const dx = dataHtml.split(" às ")
+                            const data = dx[0]
+                            const hora = dx[1].split("h")
+
+                            dataFormatada = new Date(`${data} ${hora[0]}:${hora[1]}:00`)
+                        }
+                        
 
                         news.push({
                             title: title.innerHTML,
@@ -65,8 +77,8 @@ module.exports = async () => {
                             url: title.getAttribute('href'),
                             categoria: categoria.innerHTML,
                             description: descricao != null ? descricao.innerHTML : "",
-                            urlToImage: img[0].split(" ")[0],
-                            publishedAt: dataHora,
+                            urlToImage: img != null ? img : "",
+                            publishedAt: dataFormatada  != null ? dataFormatada : "",
                             content: descricao != null ? descricao.innerHTML : "",
                         });
                     })
