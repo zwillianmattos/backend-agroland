@@ -9,7 +9,7 @@ const error404 = (req, res) => {
 }
 
 module.exports = (app) => {
-    app.use(cors(corsConfig))
+    app.use(cors())
     
     app.get('/version', (req, res) => {
         const { app_version } = process.env
