@@ -45,7 +45,6 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 0
         },
     }, {
-        
         freezeTableName: true,
         timestamps: true,
         modelName: 'User'
@@ -53,8 +52,11 @@ module.exports = (sequelize, DataTypes) => {
 
 
     User.associate = function (models) {
-        User.hasMany(models.Thread, {as: 'thread'})
-        User.hasMany(models.Replies, {as: 'replies'})
+        User.hasMany(models.Thread, { as: 'thread' })
+        User.hasMany(models.Replies, { as: 'replies' })
+        User.hasOne(models.ProducerUser, {
+            foreignKey: 'id'
+        })
         // User.belongsTo(models.UserProvider, {
         //     foreignKey: 'ID',
         //     // as:'provider',
