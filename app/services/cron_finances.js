@@ -5,7 +5,9 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { setCache, getCache } = require("./cache");
 
-module.exports = async () => {
+module.exports = async ({
+    query = 'feijao'
+} = {}) => {
 
     const financesData = await new Promise((resole, reject) => {
 
@@ -28,7 +30,7 @@ module.exports = async () => {
         let finances = [];
 
         c.queue([{
-            uri: 'https://www.canalrural.com.br/cotacao/milho',
+            uri: `https://www.canalrural.com.br/cotacao/${query}`,
             jQuery: false,
             callback: function (error, res, done) {
 
@@ -41,42 +43,57 @@ module.exports = async () => {
                     const document = dom.window.document;
 
                     const titleTab = document.querySelector(".title-table");
-                    const atualizacao = document.querySelectorAll("div > p > span")[0];
-                    const cotacoes = document.querySelectorAll("div > table > tbody > tr");
-                    
-                    cotacoes.forEach((cotacao) => {
-                        const city = cotacao.querySelectorAll("td")[0]
-                        const price = cotacao.querySelectorAll("td")[1]
+                    const atualizacao = document.querySelector("div > p > span b").innerHTML.trim();
 
-                        finances.push({
-                            descricao: titleTab.innerHTML.replace("Cotações | ","Cotação do "),
-                            atualizado_em: atualizacao.innerHTML,
-                            tipos: {
-                                descricao: "",
-                                dados: {
-                                    cidade: city.innerHTML,
-                                    preco: price.innerHTML
-                                }
-                            }
-                        });
+                    let dataAtualizacao = null;
+
+                    if (typeof atualizacao != "undefined" && atualizacao != null) {
+                        dataAtualizacao = new Date(Date.parse(atualizacao)).toISOString()
+                    }
+
+                    let data = {
+                        descricao: titleTab.innerHTML.replace("Cotações | ", "Cotação do "),
+                        atualizado_em: dataAtualizacao,
+                        tipos: []
+                    };
+
+                    const categorias = document.querySelectorAll(".fl-row-full-width:first-child .table-striped");
+
+                    categorias.forEach((category) => {
+                        const cotacoes = category.querySelectorAll("div > table > tbody > tr");
+                        const descricaoCategoria = category.querySelector("thead>tr>th>span").innerHTML;
+
+                        console.log(descricaoCategoria)
+
+                        let tipo = {
+                            descricao: descricaoCategoria,
+                            dados: []
+                        };
+
+                        cotacoes.forEach((cotacao) => {
+                            const city = cotacao.querySelectorAll("td")[0]
+                            const price = cotacao.querySelectorAll("td")[1]
+
+                            tipo.dados.push({
+                                cidade: city.innerHTML,
+                                preco: parseFloat(price.innerHTML)
+                            })
+                        })
+
+                        data.tipos.push(tipo);
                     })
-                }
 
+                    finances.push(data);
+                }
                 resole(finances);
                 done();
             }
         }]);
     })
 
-    if (setCache("finances", financesData)) {
-        console.log(financesData)
-
-        // fs = require('fs');
-        // await fs.writeFile('news.json', JSON.stringify(newsData), (err, data) => {
-
-        // });
-
+    if (setCache(`finances_${query}`, financesData)) {
         return financesData;
     }
+
     return false;
 }

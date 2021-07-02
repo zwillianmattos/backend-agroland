@@ -9,13 +9,20 @@ const cronFinances = require("../../../services/cron_finances")
 
 router.get('/', async (req, res) => {
 
-    let finances = getCache("finances");
+    const { q } = req.query;
+
+    console.log(`finances_${q}`);
+
+
+    let finances = await getCache(`finances_${q}`);
     if (!finances) {
-        finances = await cronFinances();
+        finances = await cronFinances({
+            query: q
+        });
     }
 
     res.status(200).send({
-        status:true,
+        status: true,
         finances: finances
     });
 });
