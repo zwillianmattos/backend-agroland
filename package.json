@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "qa": "export NODE_ENV=qa && nodemon ./index.js",
-    "dev": "export NODE_ENV=development && nodemon ./index.js"
+    "start": "nodemon --inspect=0.0.0.0 index.js",
+    "qa": "export NODE_ENV=qa && nodemon ./index.js -L",
+    "dev": "export NODE_ENV=development && nodemon -L ./index.js"
   },
   "author": "",
   "license": "ISC",
