@@ -40,32 +40,39 @@ module.exports = {
                 email: email,
                 password: pass,
                 excluded: 0,
-                situation: 0
+                situation: 1
             }).then(async (user) => {
                 // Realiza o cadastro de usuário
-                let configMail = {
-                    email: user.email,
-                    template: 1
-                };
+                // let configMail = {
+                //     email: user.email,
+                //     template: 1
+                // };
 
-                mail.sendAccountConfirmation(configMail.email).then(async data => {
-                    // Grava CODIGO DE CONFIRMAÇÃO
-                    await User.update({
-                        token_auth: data.key,
-                        situation: 0
-                    }, { where: { id: user.id } });
-
-
-                    res.status(200).send({
-                        status: true,
-                        message: data.message
-                    })
+                // mail.sendAccountConfirmation(configMail.email).then(async data => {
+                // Grava CODIGO DE CONFIRMAÇÃO
+                // await User.update({
+                //     token_auth: data.key,
+                //     situation: 1
+                // }, { where: { id: user.id } });
 
 
-                }).catch(error => {
-                    console.error(error);
-                    res.status(500).send(error.message)
-                })
+                const token = jwt.sign({
+                    id: user.id,
+                    typeUser: 1
+                }, process.env.auth_userkey);
+
+
+                res.header("authentication", token).status(200).send({
+                    status: true,
+                    message: "Usuario registrado com sucesso",
+                    token: token,
+                    user: user
+                });
+
+                // }).catch(error => {
+                //     console.error(error);
+                //     res.status(500).send(error.message)
+                // })
 
             }).catch(error => {
                 console.error(error);
