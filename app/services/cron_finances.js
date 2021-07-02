@@ -51,39 +51,39 @@ module.exports = async ({
                         dataAtualizacao = new Date(Date.parse(atualizacao)).toISOString()
                     }
 
-                    let data = {
-                        descricao: titleTab.innerHTML.replace("Cotações | ", "Cotação do "),
-                        atualizado_em: dataAtualizacao,
-                        tipos: []
+                    let dadosCotacao = {
+                        description: titleTab.innerHTML.replace("Cotações | ", "Cotação do "),
+                        updated_at: dataAtualizacao,
+                        cultures: []
                     };
 
-                    const categorias = document.querySelectorAll(".fl-row-full-width:first-child .table-striped");
+                    const culturas = document.querySelectorAll(".fl-row-full-width:first-child .table-striped");
 
-                    categorias.forEach((category) => {
-                        const cotacoes = category.querySelectorAll("div > table > tbody > tr");
-                        const descricaoCategoria = category.querySelector("thead>tr>th>span").innerHTML;
+                    culturas.forEach((cultura) => {
+                        const cotacoes = cultura.querySelectorAll("div > table > tbody > tr");
+                        const descricaoCategoria = cultura.querySelector("thead>tr>th>span").innerHTML;
 
                         console.log(descricaoCategoria)
 
-                        let tipo = {
-                            descricao: descricaoCategoria,
-                            dados: []
+                        let cultureData = {
+                            description: descricaoCategoria,
+                            data: []
                         };
 
                         cotacoes.forEach((cotacao) => {
-                            const city = cotacao.querySelectorAll("td")[0]
-                            const price = cotacao.querySelectorAll("td")[1]
+                            const cidade = cotacao.querySelectorAll("td")[0]
+                            const preco = cotacao.querySelectorAll("td")[1]
 
-                            tipo.dados.push({
-                                cidade: city.innerHTML,
-                                preco: parseFloat(price.innerHTML)
+                            cultureData.data.push({
+                                city: cidade.innerHTML,
+                                price: parseFloat(preco.innerHTML)
                             })
                         })
 
-                        data.tipos.push(tipo);
+                        dadosCotacao.cultures.push(cultureData);
                     })
 
-                    finances.push(data);
+                    finances.push(dadosCotacao);
                 }
                 resole(finances);
                 done();
