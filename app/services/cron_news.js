@@ -91,13 +91,6 @@ module.exports = async () => {
     })
 
     if (setCache("news", newsData)) {
-        console.log(newsData)
-
-        // fs = require('fs');
-        // await fs.writeFile('news.json', JSON.stringify(newsData), (err, data) => {
-
-        // });
-
         return newsData;
     }
     return false;
