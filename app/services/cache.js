@@ -5,10 +5,10 @@ module.exports = {
     setCache(key, data) {
         return appCache.set(key, data, 3600)
     },
-    async getCache(key) {
+    getCache(key) {
         console.log("[Loading data from]: Cache")
         if (appCache.has(key))
-            return await appCache.get(key)
+            return appCache.get(key)
         return false;
     },
 }
