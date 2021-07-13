@@ -30,12 +30,11 @@ module.exports = {
                     where: {
                         excluded: 0
                     },
-                    // include: {
-                    //     model: User,
-                    //     as: 'user_comment',
-                    //     attributes: ['id', 'name'],
-                    //     required: false,
-                    // },
+                    include: {
+                        model: User,
+                        attributes: ['id', 'name'],
+                        required: false,
+                    },
                     limit: !channel && !thread ? 3 : null,
                 },
             ]

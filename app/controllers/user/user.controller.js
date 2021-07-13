@@ -1,6 +1,6 @@
 require('../../config/dotenv');
 const { empty } = require('../../utils/utils');
-const { User } = require('../../../database/models');
+const { User, ProducerUser } = require('../../../database/models');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const mail = require('../../services/mail');
@@ -99,6 +99,10 @@ module.exports = {
                 'situation',
                 'date_birthday'
             ],
+            include: {
+                model: ProducerUser, required: false,
+                attributes: ['id', 'user', 'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'address', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',]
+            },
             where: {
                 email: email,
             }

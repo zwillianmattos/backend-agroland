@@ -5,6 +5,12 @@ const router = express.Router();
 
 
 // Registrar
-router.post('/register', [auth], controller.store);
+router.post('/register', [auth], controller.register);
+// Atualizar perfil
+router.put('/profile', [auth], controller.store);
+// Profile
+router.get('/profile', [auth], controller.current);
+// Remove Procucer account
+router.delete('/:id', [auth], controller.deleteAccount);
 
 module.exports = router;

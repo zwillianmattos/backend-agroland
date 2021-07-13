@@ -1,6 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const ProducerUser = sequelize.define('ProducerUser', {
+    id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     user: {
       type: DataTypes.INTEGER
     },
@@ -27,6 +33,9 @@ module.exports = (sequelize, DataTypes) => {
     })
     ProducerUser.belongsTo(model.User, {
       foreignKey: 'user'
+    })
+    ProducerUser.hasMany(model.ProductSells, {
+      foreignKey: 'producerUser'
     })
   };
   return ProducerUser;
