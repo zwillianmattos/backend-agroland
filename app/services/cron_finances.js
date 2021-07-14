@@ -49,7 +49,7 @@ module.exports = async ({
 
                     if (typeof atualizacao != "undefined" && atualizacao != null) {
                         dataAtualizacao = new Date(Date.parse(atualizacao))
-                        dataAtualizacao = typeof dataAtualizacao != "undefined" && dataAtualizacao != null ? dataAtualizacao.toISOString() : null;
+                        dataAtualizacao = typeof dataAtualizacao != "undefined" && dataAtualizacao != null && Number.isInteger(dataAtualizacao) ? dataAtualizacao.toISOString() : null;
                     }
 
                     let dadosCotacao = {
