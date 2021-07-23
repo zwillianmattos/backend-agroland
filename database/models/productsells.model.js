@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     producerUser: {
       type: DataTypes.INTEGER
     },
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     forma_comercializacao: DataTypes.STRING,
     forma_comercializacao_descricao: DataTypes.STRING,
     excluded: {

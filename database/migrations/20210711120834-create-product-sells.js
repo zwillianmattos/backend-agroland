@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.DECIMAL(10,2)
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       forma_comercializacao: {
         type: Sequelize.INTEGER

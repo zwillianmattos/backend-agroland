@@ -25,7 +25,7 @@ router.post('/announce/:announceId/upload', [auth, upload.single("file", () => {
     , controller.uploadProductPhotos);
 
 // Ver anuncios da loja
-router.get('/announces', [auth], controller.getAll);
+router.get('/announces', [], controller.getAll);
 
 
 
