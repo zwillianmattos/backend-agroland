@@ -14,9 +14,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0
     },
   }, {});
-  ProductCategories.associate = function (models) {
-
-    ProductSellCategories.hasMany(model.ProductCategories, {
+  ProductCategories.associate = (models) => {
+    ProductCategories.hasMany(models.ProductSellCategories, {
       foreignKey: 'productCategorie',
     })
   };

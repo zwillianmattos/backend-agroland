@@ -40,7 +40,7 @@ module.exports = {
 
                 // Store categories of the product
                 if (categories !==  'undefined' && categories !== null) {
-                    categories.forEach(category => {
+                    categories.forEach( async category => {
                         await ProductSellCategories.create({
                             productId: announce.id,
                             ProductCategorie: category
