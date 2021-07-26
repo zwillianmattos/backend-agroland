@@ -11,8 +11,8 @@ module.exports = {
       productId: {
         type: Sequelize.INTEGER
       },
-      description: {
-        type: Sequelize.STRING
+      productCategorie: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
@@ -34,6 +34,17 @@ module.exports = {
       name: 'ProductSellCategories_fkey_productId',
       references: { //Required field
         table: 'ProductSells',
+        field: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+
+    await queryInterface.addConstraint('ProductSellCategories', ['productCategorie'], {
+      type: 'foreign key',
+      name: 'ProductSellCategories_fkey_productCategorie',
+      references: { //Required field
+        table: 'ProductCategories',
         field: 'id'
       },
       onDelete: 'cascade',

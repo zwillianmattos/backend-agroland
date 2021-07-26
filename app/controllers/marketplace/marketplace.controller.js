@@ -1,4 +1,4 @@
-const { ProducerUser, ProductSells, ProductSellPhotos, ProductSellCategories, User } = require('../../../database/models');
+const { ProducerUser, ProductSells, ProductSellPhotos, ProductSellCategories, User, ProductCategories } = require('../../../database/models');
 const { store, current } = require('../user/user.controller');
 const { empty, removeFiles } = require('../../utils/utils');
 const { getPagination, getPagingData } = require('../../utils/pagination');
@@ -14,6 +14,7 @@ module.exports = {
                 description,
                 forma_comercializacao,
                 forma_comercializacao_descricao,
+                categories,
             } = req.body;
 
             const exist = await ProducerUser.findOne({
@@ -26,7 +27,7 @@ module.exports = {
             if (typeof exist !== 'undefined' && exist !== null) {
 
                 console.log(exist);
-
+                // Store product
                 const announce = await ProductSells.create({
                     producerUser: exist.id,
                     title: title,
@@ -37,6 +38,16 @@ module.exports = {
                     excluded: 0
                 })
 
+                // Store categories of the product
+                if (categories !==  'undefined' && categories !== null) {
+                    categories.forEach(category => {
+                        await ProductSellCategories.create({
+                            productId: announce.id,
+                            ProductCategorie: category
+                        });
+                    });
+                }
+
                 res.status(200).json({
                     status: true,
                     message: "Anuncio criado com sucesso !",
@@ -46,6 +57,8 @@ module.exports = {
             } else {
                 throw ("Ocorreu um erro ao criar anuncio !");
             }
+
+
         } catch (error) {
             console.log(error)
             res.status(500).send({
