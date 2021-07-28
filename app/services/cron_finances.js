@@ -9,6 +9,9 @@ module.exports = async ({
     query = 'feijao'
 } = {}) => {
 
+    if (process.env.enable_crawler == "N")
+        return;
+
     const financesData = await new Promise((resole, reject) => {
 
         console.log("[Loading data from]: Cron")

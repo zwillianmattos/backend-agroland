@@ -5,6 +5,9 @@ const consign = require('consign');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const logger = require('../services/logger.js');
+const cors = require('cors');
+
+const ws = require('../services/websocket.js');
 
 module.exports = () => {
     let app = express();
@@ -19,12 +22,21 @@ module.exports = () => {
     }));
 
     app.use(bodyParser.json());
+    app.use(cors());
 
-    consign({cwd: './app'})
+    // Configuração do protocolo HTTP
+    const server = require('http').createServer(app);
+    // Init services
+    ws.connect(server);
+
+    consign({ cwd: './app' })
         .include('controllers')
         .then('services')
         .then('routes/index.js')
-        .into(app);
+        .into({
+            app,
+            ws
+        });
 
-    return app;
+    return server;
 };
