@@ -8,7 +8,9 @@ const error404 = (req, res) => {
     });
 }
 
-module.exports = (app) => {
+module.exports = (instance) => {
+    var app = instance.app;
+
     app.use(cors())
     
     app.get('/version', (req, res) => {

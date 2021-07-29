@@ -6,7 +6,9 @@ const { JSDOM } = jsdom;
 const { setCache, getCache } = require("./cache");
 
 module.exports = async () => {
-
+    if (process.env.enable_crawler == "N")
+        return;
+        
     const newsData = await new Promise((resole, reject) => {
 
         console.log("[Loading data from]: Cron")
@@ -48,24 +50,24 @@ module.exports = async () => {
                         const descricao = post.querySelector(".fl-post-excerpt > p")
                         const imgData = post.querySelector(".fl-post-image img")
                         let img = imgData.getAttribute('data-srcset')
-                        
-                        if( typeof img != "undefined" && img != null ) {
+
+                        if (typeof img != "undefined" && img != null) {
                             img = img.split(",")
                             img = img[0].split(" ")[0]
                         }
-                        
+
 
                         const dataHtml = post.querySelector(".data-hora").innerHTML.trim()
-                        let dataFormatada =  null;
+                        let dataFormatada = null;
 
-                        if( typeof dataHtml != "undefined" && dataHtml  != null ) {
+                        if (typeof dataHtml != "undefined" && dataHtml != null) {
                             const dx = dataHtml.split(" às ")
                             const data = dx[0]
                             const hora = dx[1].split("h")
 
                             dataFormatada = new Date(`${data} ${hora[0]}:${hora[1]}:00`)
                         }
-                        
+
 
                         news.push({
                             title: title.innerHTML,
@@ -78,7 +80,7 @@ module.exports = async () => {
                             categoria: categoria.innerHTML,
                             description: descricao != null ? descricao.innerHTML : "",
                             urlToImage: img != null ? img : "",
-                            publishedAt: dataFormatada  != null ? dataFormatada : "",
+                            publishedAt: dataFormatada != null ? dataFormatada : "",
                             content: descricao != null ? descricao.innerHTML : "",
                         });
                     })
