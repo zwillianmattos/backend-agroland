@@ -21,12 +21,15 @@ router.post('/announce/:announceId/upload', [auth, upload.single("file", () => {
         const token = jwt.sign({ id: user.email }, process.env.auth_userkey);
         cb(null, token);
     }
-})]
-    , controller.uploadProductPhotos);
+})], controller.uploadProductPhotos);
 
 // Ver anuncios da loja
 router.get('/announces', [], controller.getAll);
 
+// Categorias
+router.post('/category', [], controller.storeCategory);
 
+// Categorias
+router.get('/category', [], controller.getCategory);
 
 module.exports = router;

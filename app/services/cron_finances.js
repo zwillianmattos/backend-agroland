@@ -10,7 +10,7 @@ module.exports = async ({
 } = {}) => {
 
     if (process.env.enable_crawler == "N")
-        return;
+        return [];
 
     const financesData = await new Promise((resole, reject) => {
 

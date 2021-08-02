@@ -7,13 +7,13 @@ const router = express.Router();
 
 
 // List
-router.get('/', [auth], threadController.show);
+router.get('/',  threadController.show);
 
 // Gravar
 router.post('/', [auth], threadController.store);
 
 // Lista Thread
-router.get('/:channel/:thread', [auth], threadController.show);
+router.get('/:channel/:thread',  threadController.show);
 
 // Remove Thread
 router.delete('/:channel/:thread', [auth], threadController.delete);

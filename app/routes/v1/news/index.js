@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 
     res.status(200).send({
         status: "ok",
-        totalResults: news.legth,
+        totalResults: news.length,
         articles: news
     });
 });

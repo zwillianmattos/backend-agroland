@@ -1,6 +1,6 @@
 require('../../config/dotenv');
 const { empty } = require('../../utils/utils');
-const { User, ProducerUser } = require('../../../database/models');
+const { User, ProducerUser, UserAddress } = require('../../../database/models');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const mail = require('../../services/mail');
@@ -101,7 +101,10 @@ module.exports = {
             ],
             include: {
                 model: ProducerUser, required: false,
-                attributes: ['id', 'user', 'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'address', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',]
+                attributes: ['id', 'user', 'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'address', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',],
+                include: {
+                    model: UserAddress, required: false,
+                },
             },
             where: {
                 email: email,
@@ -313,9 +316,18 @@ module.exports = {
     },
     async current(req, res) {
         await User.findOne({
+
+            include: {
+                model: ProducerUser, required: false,
+                attributes: ['id', 'user', 'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',],
+                include: {
+                    model: UserAddress, required: false,
+                },
+            },
             where: {
                 id: req.user.id,
-                excluded: 0
+                excluded: 0,
+
             }
         }).then(async user => {
             res.status(200).send(user);

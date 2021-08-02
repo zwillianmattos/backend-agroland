@@ -1,13 +1,18 @@
 
 const { Channel, Thread, User, Replies } = require('../../../database/models');
+const { getPagination, getPagingData} = require('../../utils/pagination');
 const Sequelize = require('sequelize');
 const { empty } = require('../../utils/utils');
 
 module.exports = {
     async show(req, res) {
         try {
-            const { channel, thread } = req.params;
 
+            const {page,size, q, categoria} = req.query;           
+            const {limit, offset} = getPagination(page,size)
+
+            const { channel, thread } = req.params;
+            
             const where = {
                 id: {
                     [Sequelize.Op.in]: [thread]
@@ -20,8 +25,8 @@ module.exports = {
 
             let include = [
 
-                { model: Channel, as: 'Channel', attributes: ['id', 'name', 'slug'], required: true, },
-                { model: User, as: 'User', attributes: ['id', 'name'], required: true, },
+                { model: Channel,  attributes: ['id', 'name', 'slug'], required: true, },
+                { model: User, attributes: ['id', 'name'], required: true, },
                 {
                     model: Replies,
                     as: 'Replies',
@@ -39,16 +44,21 @@ module.exports = {
                 },
             ]
 
-            const channels = await Thread.findAll({
+            const channels = await Thread.findAndCountAll({
                 attributes: ['id', 'title', 'body', 'createdAt', 'updatedAt'],
                 required: true,
                 where: channel != null ? where : {
                     excluded: 0
                 },
                 include: include,
+                limit: limit,
+                offset: offset,
             })
 
-            res.status(200).json(channels)
+            res.status(200).json({
+                status: true,
+                data: getPagingData(channels,limit, page)
+            })
         } catch (e) {
             console.error(e)
             res.status(500).json({
