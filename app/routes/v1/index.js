@@ -9,4 +9,5 @@ router.use('/threads', require('./community/threads'));
 router.use('/channel', require('./community/channel'));
 router.use('/news', require('./news'));
 router.use('/finances', require('./finances'));
+router.use('/cultures', require('./cultures'));
 module.exports = router;

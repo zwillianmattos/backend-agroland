@@ -7,8 +7,9 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-		contentCulture: DataTypes.INTEGER,
-		categoryCulture: DataTypes.INTEGER,
+		cultureCategory: {
+			type: DataTypes.INTEGER
+		},
 		culture: DataTypes.INTEGER,
 		excluded: {
 			type: DataTypes.INTEGER,
@@ -17,15 +18,15 @@ module.exports = (sequelize, DataTypes) => {
 	}, {});
 	CulturesCategoriesRel.associate = function (model) {
 		CulturesCategoriesRel.belongsTo(model.Cultures, {
-			foreignKey: 'Cultures'
+			foreignKey: 'id'
 		})
 
 		CulturesCategoriesRel.belongsTo(model.CulturesCategories, {
-			foreignKey: 'CulturesCategories'
+			foreignKey: 'cultureCategory'
 		})
 
-		CulturesCategoriesRel.hasMany(model.CulturesContent, {
-			foreignKey: 'CulturesContent'
+		CulturesCategoriesRel.belongsTo(model.CulturesContent, {
+			foreignKey: 'id'
 		})
 	};
 	return CulturesCategoriesRel;

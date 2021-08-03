@@ -8,10 +8,7 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			contentCulture: {
-				type: Sequelize.INTEGER
-			},
-			culturesCulture: {
+			cultureCategory: {
 				type: Sequelize.INTEGER
 			},
 			culture: {
@@ -32,7 +29,7 @@ module.exports = {
 			}
 		});
 
-		await queryInterface.addConstraint('CulturesCategoriesRels', ['Cultures'], {
+		await queryInterface.addConstraint('CulturesCategoriesRels', ['culture'], {
 			type: 'foreign key',
 			name: 'CulturesCategoriesRels_fkey_cultures',
 			references: { //Required field
@@ -43,7 +40,7 @@ module.exports = {
 			onUpdate: 'cascade'
 		});
 
-		await queryInterface.addConstraint('CulturesCategoriesRels', ['CulturesCategories'], {
+		await queryInterface.addConstraint('CulturesCategoriesRels', ['cultureCategory'], {
 			type: 'foreign key',
 			name: 'CulturesCategoriesRels_fkey_culturesCategories',
 			references: { //Required field
@@ -54,16 +51,6 @@ module.exports = {
 			onUpdate: 'cascade'
 		});
 
-		await queryInterface.addConstraint('CulturesCategoriesRels', ['CulturesContent'], {
-			type: 'foreign key',
-			name: 'CulturesCategoriesRels_fkey_culturesCategories',
-			references: { //Required field
-				table: 'CulturesContent',
-				field: 'id'
-			},
-			onDelete: 'cascade',
-			onUpdate: 'cascade'
-		});
 
 		return queryInterface;
 

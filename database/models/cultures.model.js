@@ -2,11 +2,11 @@
 module.exports = (sequelize, DataTypes) => {
 	const Cultures = sequelize.define('Cultures', {
 		id: {
-            allowNull: false,
-            autoIncrement: true,
-            primaryKey: true,
-            type: DataTypes.INTEGER
-        },
+			allowNull: false,
+			autoIncrement: true,
+			primaryKey: true,
+			type: DataTypes.INTEGER
+		},
 		name: DataTypes.STRING,
 		icon: DataTypes.STRING,
 		description: DataTypes.STRING,
@@ -16,8 +16,11 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	}, {});
 	Cultures.associate = function (model) {
-		Cultures.hasOne(model.CulturesCategoriesRel, {
-			foreignKey: 'id'
+		// Cultures.belongsTo(model.CulturesCategories, {
+		// 	foreignKey: 'id',
+		// })
+		Cultures.hasMany(model.CulturesCategoriesRel, {
+			foreignKey: 'culture'
 		})
 	};
 	return Cultures;

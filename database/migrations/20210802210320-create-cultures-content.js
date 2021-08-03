@@ -1,15 +1,21 @@
 'use strict';
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('CulturesContents', {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('CulturesContents', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      description: {
+        type: Sequelize.STRING
+      },
+      cultureCategoryRel: {
+        type: Sequelize.INTEGER
+      },
       content: {
-        type: Sequelize.TEXT
+        type: Sequelize.JSON
       },
       excluded: {
         allowNull: false,
@@ -25,6 +31,20 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+
+    await queryInterface.addConstraint('CulturesContents', ['cultureCategoryRel'], {
+      type: 'foreign key',
+      name: 'CulturesCategoriesRels_fkey_contentCulture',
+      references: { //Required field
+        table: 'CulturesCategoriesRels',
+        field: 'id'
+      },
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+
+    return queryInterface;
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('CulturesContents');

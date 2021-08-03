@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
 		}
 	}, {});
 	CulturesCategories.associate = function (model) {
-		CulturesCategories.hasOne(model.CulturesCategoriesRel, {
+		CulturesCategories.hasMany(model.CulturesCategoriesRel, {
 			foreignKey: 'id'
 		})
 	};
