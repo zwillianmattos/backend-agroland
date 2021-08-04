@@ -15,10 +15,10 @@ module.exports = {
         dialect: 'mysql'
     },
     production: {
-        username: 'u975537847_root',
-        password: '4KlbmHmwDk!',
-        database: 'u975537847_plant',
-        host: '85.10.205.173',
+        username: 'bricom_plantcare',
+        password: '{)X0Fe5)V1va',
+        database: 'bricom_plantcare',
+        host: '162.241.203.115',
         dialect: 'mysql'
     }
 };
