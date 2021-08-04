@@ -5,12 +5,12 @@ const router = express.Router();
 
 
 // Lista todas
-router.get('/', [auth], controller.show);
+router.get('/', [], controller.show);
 
 // Lista dados cultura
-router.get('/:culture', [auth], controller.view);
+router.get('/:culture', [], controller.view);
 
 // Lista dados cultura
-router.get('/:culture/:category/detail', [auth], controller.detail);
+router.get('/:culture/:category/detail', [], controller.detail);
 
 module.exports = router;
