@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
 		})
 
 		CulturesCategoriesRel.hasMany(model.CulturesContent, {
-			foreignKey: 'id'
+			foreignKey: 'cultureCategoryRel'
 		})
 	};
 	return CulturesCategoriesRel;
