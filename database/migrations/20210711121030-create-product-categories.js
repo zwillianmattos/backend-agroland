@@ -1,14 +1,11 @@
 'use strict';
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('ProductSellCategories', {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('ProductCategories', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      productId: {
         type: Sequelize.INTEGER
       },
       description: {
@@ -28,20 +25,8 @@ module.exports = {
         defaultValue: 0
       },
     });
-
-    await queryInterface.addConstraint('ProductSellCategories', ['productId'], {
-      type: 'foreign key',
-      name: 'ProductSellCategories_fkey_productId',
-      references: { //Required field
-        table: 'ProductSells',
-        field: 'id'
-      },
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ProductSellCategories');
+    return queryInterface.dropTable('ProductCategories');
   }
 };

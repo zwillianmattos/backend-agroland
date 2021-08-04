@@ -7,7 +7,7 @@ const { setCache, getCache } = require("./cache");
 
 module.exports = async () => {
     if (process.env.enable_crawler == "N")
-        return;
+        return [];
         
     const newsData = await new Promise((resole, reject) => {
 

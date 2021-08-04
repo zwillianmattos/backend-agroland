@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-    up: (queryInterface, DataTypes) => {
-        return queryInterface.createTable('User', {
+    up: async (queryInterface, DataTypes) => {
+        await queryInterface.createTable('User', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -56,6 +56,41 @@ module.exports = {
                 defaultValue: 0
             },
         });
+
+        await queryInterface.addConstraint('User', ['id'], {
+            type: 'foreign key',
+            name: 'User_fkey_Thread',
+            references: { //Required field
+                table: 'Threads',
+                field: 'user'
+            },
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
+        });
+
+        await queryInterface.addConstraint('User', ['id'], {
+            type: 'foreign key',
+            name: 'User_fkey_Replies',
+            references: { //Required field
+                table: 'Replies',
+                field: 'user'
+            },
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
+        });
+
+        await queryInterface.addConstraint('User', ['id'], {
+            type: 'foreign key',
+            name: 'User_fkey_ProducerUsers',
+            references: { //Required field
+                table: 'ProducerUsers',
+                field: 'user'
+            },
+            onDelete: 'cascade',
+            onUpdate: 'cascade'
+        });
+
+        return queryInterface;
     },
 
     down: (queryInterface, DataTypes) => {

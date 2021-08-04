@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     productId: DataTypes.INTEGER,
-    description: DataTypes.STRING,
+    productCategorie: DataTypes.INTEGER,
     excluded: {
       allowNull: false,
       type: DataTypes.INTEGER,
@@ -19,6 +19,9 @@ module.exports = (sequelize, DataTypes) => {
 
     ProductSellCategories.belongsTo(model.ProductSells, {
       foreignKey: 'productId',
+    })
+    ProductSellCategories.belongsTo(model.ProductCategories, {
+      foreignKey: 'productCategorie',
     })
   };
   return ProductSellCategories;

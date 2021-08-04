@@ -55,10 +55,19 @@ module.exports = {
                 excluded: 0
             })
 
+            const userProducer = await ProducerUser.findOne({
+                where: {
+                    id: producer.id,
+                },
+                include: {
+                    model: UserAddress, required: false,
+                },
+            });
+
             res.status(200).json({
                 status: true,
                 message: "",
-                data: producer
+                data: userProducer
             })
 
         } catch (error) {

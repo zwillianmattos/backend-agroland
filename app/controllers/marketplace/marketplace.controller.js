@@ -1,8 +1,11 @@
-const { ProducerUser, ProductSells, ProductSellPhotos, ProductSellCategories, User } = require('../../../database/models');
+const { ProducerUser, ProductSells, ProductSellPhotos, ProductSellCategories, User, ProductCategories } = require('../../../database/models');
 const { store, current } = require('../user/user.controller');
 const { empty, removeFiles } = require('../../utils/utils');
 const { getPagination, getPagingData } = require('../../utils/pagination');
 const cloudinary = require('../../services/cloudinary');
+
+const Sequelize = require('sequelize');
+
 module.exports = {
     async create(req, res) {
         try {
@@ -14,6 +17,7 @@ module.exports = {
                 description,
                 forma_comercializacao,
                 forma_comercializacao_descricao,
+                product_sell_categories
             } = req.body;
 
             const exist = await ProducerUser.findOne({
@@ -25,8 +29,7 @@ module.exports = {
 
             if (typeof exist !== 'undefined' && exist !== null) {
 
-                console.log(exist);
-
+                // Store product
                 const announce = await ProductSells.create({
                     producerUser: exist.id,
                     title: title,
@@ -37,6 +40,17 @@ module.exports = {
                     excluded: 0
                 })
 
+                // Store categories of the product
+                if (typeof product_sell_categories != 'undefined' && product_sell_categories !== null) {
+                    product_sell_categories.forEach(async category => {
+                        console.log(category);
+                        await ProductSellCategories.create({
+                            productId: announce.id,
+                            productCategorie: category.id
+                        });
+                    });
+                }
+
                 res.status(200).json({
                     status: true,
                     message: "Anuncio criado com sucesso !",
@@ -46,6 +60,8 @@ module.exports = {
             } else {
                 throw ("Ocorreu um erro ao criar anuncio !");
             }
+
+
         } catch (error) {
             console.log(error)
             res.status(500).send({
@@ -66,7 +82,14 @@ module.exports = {
                     productId: announceId,
                 },
                 {
-                    model: ProductSellCategories, required: false,
+                    model: ProductCategories, required: false,
+                    productId: announceId,
+                    include: [
+                        {
+                            model: ProductSellCategories, required: true,
+                            attributes: ["description", "id"]
+                        }
+                    ]
                 },
                 {
                     model: ProductSellPhotos, required: false,
@@ -93,7 +116,7 @@ module.exports = {
     },
     async getAll(req, res) {
         try {
-            const { page, size, producerUser, q } = req.query;
+            const { page, size, producerUser, q, category } = req.query;
             const { limit, offset } = getPagination(page, size);
 
 
@@ -118,7 +141,22 @@ module.exports = {
                         model: ProducerUser, required: false,
                     },
                     {
+                        attributes: ["id"],
                         model: ProductSellCategories, required: false,
+                        include: [
+                            {
+                                model: ProductCategories, required: category ? true : false,
+                                attributes: ["description", "id"],
+                                where: category ? {
+                                    id: {
+                                        [Sequelize.Op.in]: [
+                                            category
+                                        ]
+                                    }
+                                } : null,
+                            },
+                        ],
+
                     },
                     {
                         model: ProductSellPhotos, required: false,
@@ -187,5 +225,76 @@ module.exports = {
             });
         });
 
+    },
+    async storeCategory(req, res) {
+        try {
+            const { description } = req.body;
+
+            if (typeof description === "undefined" || description === "" || description === null) {
+                throw ("Descricao da categoria e obrigatorio!");
+            }
+
+            let exists = await ProductCategories.findOne({
+                where: {
+                    description: {
+                        [Sequelize.Op.like]: description
+                    },
+                    excluded: 0
+                }
+            })
+
+            if (typeof exists !== "undefined" && exists !== null) {
+                throw ("Categoria ja existe");
+            }
+
+            let category = await ProductCategories.create({
+                description: description,
+                excluded: 0,
+            })
+
+            res.status(200).send({
+                status: true,
+                data: category
+            });
+
+        } catch (e) {
+            console.error(e);
+            res.status(500).send({
+                status: false,
+                message: e !== null ? e : "Ocorreu um erro interno, tente novamente"
+            });
+        }
+    },
+    async getCategory(req, res) {
+        try {
+            const { page, size, q, categoria } = req.query;
+            const { limit, offset } = getPagination(page, size)
+
+            const filtro = q ? {
+                name: {
+                    [Sequelize.Op.like]: `%${q}%`
+                },
+                excluded: 0
+
+            } : { excluded: 0 };
+
+            const categories = await ProductCategories.findAndCountAll({
+                attributes: ['id', 'description'],
+                where: filtro,
+                limit: limit,
+                offset: offset,
+            });
+
+            res.status(200).json({
+                status: true,
+                data: getPagingData(categories, limit, page)
+            })
+        } catch (e) {
+            console.log(e)
+            res.status(500).json({
+                status: false,
+                data: []
+            })
+        }
     }
 }
