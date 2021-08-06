@@ -4,6 +4,6 @@ const express = require('express');
 const router = express.Router();
 
 // Listar Todos
-router.get('/', [auth],  controller.show);
+router.get('/', [],  controller.show);
 
 module.exports = router;
