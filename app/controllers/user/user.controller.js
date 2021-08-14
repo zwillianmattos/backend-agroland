@@ -357,7 +357,7 @@ module.exports = {
             }
 
             await User.update({
-                imgProfile: imageDetails.file_cloudinary,
+                imgProfile: 'https://res.cloudinary.com/dxz4ivhm8/image/upload/c_thumb,g_face,h_200,w_200/'+result.id+'.jpg',
                 excluded: 0,
             }, { where: { ID: id } }).then((documentCreated => {
                 res.status(200).send(imageDetails);
