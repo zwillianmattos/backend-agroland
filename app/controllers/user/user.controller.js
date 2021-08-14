@@ -320,7 +320,7 @@ module.exports = {
 
             include: {
                 model: ProducerUser, required: false,
-                attributes: ['id', 'user', 'imgProfile', 'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',],
+                attributes: ['id', 'user',  'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',],
                 include: {
                     model: UserAddress, required: false,
                 },
