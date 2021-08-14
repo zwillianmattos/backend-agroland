@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const mail = require('../../services/mail');
 const Sequelize = require('sequelize');
-
+const cloudinary = require('../../services/cloudinary');
 
 module.exports = {
     async register(req, res) {
@@ -97,7 +97,8 @@ module.exports = {
                 'email',
                 'password',
                 'situation',
-                'date_birthday'
+                'date_birthday',
+                'imgProfile', 
             ],
             include: {
                 model: ProducerUser, required: false,
@@ -319,7 +320,7 @@ module.exports = {
 
             include: {
                 model: ProducerUser, required: false,
-                attributes: ['id', 'user', 'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',],
+                attributes: ['id', 'user', 'imgProfile', 'corporateName', 'fantasyName', 'cnpj', 'description', 'location', 'imgLogo', 'phone', 'facebook', 'instagram', 'whatsapp', 'twitter', 'excluded', 'createdAt', 'updatedAt',],
                 include: {
                     model: UserAddress, required: false,
                 },
@@ -336,4 +337,45 @@ module.exports = {
         });
     },
     deleteAccount(req, res) { },
+    async uploadProfilePhoto(req, res) {
+        const { filename: file } = req.file;
+        const { id } = req.user;
+
+        var imageDetails = {
+            name: req.file.filename,
+            file: req.file.path,
+            file_cloudinary: '',
+            public_id: ''
+        }
+        cloudinary.uploads(imageDetails.file, '/profile/').then( async (result) => {
+
+            imageDetails = {
+                name: req.body.imageName,
+                file: req.file.path,
+                file_cloudinary: result.url,
+                public_id: result.id
+            }
+
+            await User.update({
+                imgProfile: imageDetails.file_cloudinary,
+                excluded: 0,
+            }, { where: { ID: id } }).then((documentCreated => {
+                res.status(200).send(imageDetails);
+                removeFiles([req.file]);
+            })).catch(error => {
+                console.log(error);
+                res.status(500).send({
+                    status: false,
+                    message: error
+                });
+            });
+
+        }).catch(error => {
+            console.log(error);
+            res.status(500).send({
+                status: false,
+                message: error
+            });
+        });
+    }
 }

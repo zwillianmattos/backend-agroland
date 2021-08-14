@@ -26,6 +26,10 @@ module.exports = {
                 allowNull: true,
                 type: DataTypes.DATE,
             },
+            imgProfile: {
+                allowNull: true,
+                type: DataTypes.STRING,
+            },
             token_auth: {
                 allowNull: true,
                 type: DataTypes.STRING,

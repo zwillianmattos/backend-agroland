@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
             type: DataTypes.INTEGER,
         },
+        imgProfile: {
+            allowNull: true,
+            type: DataTypes.STRING,
+        },
         token_notif: {
             allowNull: true,
             type: DataTypes.STRING,
