@@ -4,4 +4,4 @@ logs/**
 .env.dev
 .env.test
 mysql/**
-#app/config/database.js
+app/config/database.js
