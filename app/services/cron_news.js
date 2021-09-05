@@ -5,6 +5,8 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { setCache, getCache } = require("./cache");
 
+const { slugify } = require("../utils/utils");
+
 module.exports = async () => {
     if (process.env.enable_crawler == "N")
         return [];
@@ -66,12 +68,14 @@ module.exports = async () => {
                             dataFormatada = new Date(`${data[2]}-${data[1]}-${data[0]} ${hora[0]}:${hora[1]}:00`)
                         }
 
-
+                        // convert innerHTML to string
+                        let id = slugify(title.innerHTML).split(" ").join("-")
+                        
                         news.push({
                             title: title.innerHTML,
                             author: "",
                             source: {
-                                "id": title.innerHTML.toLowerCase().replace(" ", "-").trim(),
+                                "id": id,
                                 "name": title.innerHTML
                             },
                             url: title.getAttribute('href'),
