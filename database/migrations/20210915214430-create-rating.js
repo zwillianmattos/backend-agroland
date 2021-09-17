@@ -1,19 +1,30 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('ProductSellCategories', {
+    await queryInterface.createTable('Ratings', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      productId: {
+      document: {
         type: Sequelize.INTEGER
       },
-      productCategorie: {
+      user: {
         type: Sequelize.INTEGER
       },
+      rating: {
+        type: Sequelize.DOUBLE
+      },
+      comment: {
+        type: Sequelize.TEXT
+      },
+      excluded: {
+				allowNull: false,
+				type: Sequelize.INTEGER,
+				defaultValue: 0
+			},
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -21,40 +32,34 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      excluded: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
+      }
     });
 
-    await queryInterface.addConstraint('ProductSellCategories', ['productId'], {
+    await queryInterface.addConstraint('Ratings', ['document'], {
       type: 'foreign key',
-      name: 'ProductSellCategories_fkey_productId',
+      name: 'Ratings_fkey_Documents',
       references: { //Required field
-        table: 'ProductSells',
-        field: 'id'
+          table: 'Documents',
+          field: 'id'
       },
       onDelete: 'cascade',
       onUpdate: 'cascade'
-    });
+  });
 
-    await queryInterface.addConstraint('ProductSellCategories', ['productCategorie'], {
+  await queryInterface.addConstraint('Ratings', ['user'], {
       type: 'foreign key',
-      name: 'ProductSellCategories_fkey_productCategorie',
+      name: 'Ratings_fkey_User',
       references: { //Required field
-        table: 'ProductCategories',
-        field: 'id'
+          table: 'User',
+          field: 'id'
       },
       onDelete: 'cascade',
       onUpdate: 'cascade'
-    });
-
+  });
 
     return queryInterface;
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('ProductSellCategories');
+    return queryInterface.dropTable('Ratings');
   }
 };
