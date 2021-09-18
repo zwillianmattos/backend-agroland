@@ -61,6 +61,11 @@ module.exports = (sequelize, DataTypes) => {
         User.hasOne(models.ProducerUser, {
             foreignKey: 'id'
         })
+
+        User.hasMany(models.Rating, {
+            foreignKey: 'user'
+        })
+
         // User.belongsTo(models.UserProvider, {
         //     foreignKey: 'ID',
         //     // as:'provider',

@@ -6,4 +6,7 @@ const router = express.Router();
 // Listar Todos
 router.get('/', [],  controller.show);
 
+// Save ebook rate 
+router.post('/:ebook/rate', [auth],  controller.rate);
+
 module.exports = router;
