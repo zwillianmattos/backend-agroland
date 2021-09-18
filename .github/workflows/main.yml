@@ -29,6 +29,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: AkhileshNS/heroku-deploy@v3.12.12
         with:
-          heroku_api_key: "cf0e05d9-4eca-4948-a012-b91fe9704bab"
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "backend-plant-care"
           heroku_email: "willian_matt@hotmail.com"
