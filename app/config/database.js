@@ -5,7 +5,7 @@ module.exports = {
         database: 'plant_care',
         host: 'host.docker.internal',
         dialect: 'mysql',
-        port: 3308
+        port: 3308,
     },
     test: {
         username: 'u975537847_plantcare',

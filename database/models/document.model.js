@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
         Document.belongsTo(model.Category, {
             foreignKey:'category'
         })
+
+        Document.hasMany(model.Rating, {
+            foreignKey:'document'
+        })
     };
     return Document;
 };
