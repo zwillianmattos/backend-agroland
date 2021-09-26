@@ -50,14 +50,18 @@ module.exports = async () => {
                         const title = post.querySelector(".fl-post-title > a")
                         const categoria = post.querySelector("h3")
                         const descricao = post.querySelector(".fl-post-excerpt > p")
+                        
                         const imgData = post.querySelector(".fl-post-image img")
-                        let img = imgData.getAttribute('data-srcset') || imgData.getAttribute('srcset')
-
-                        if (typeof img != "undefined" && img != null) {
-                            img = img.split(",")
-                            img = img[0].split(" ")[0]
+                        let img = "";
+                        if(imgData != "" && imgData != undefined && imgData !== null) {
+                            console.log(imgData);
+                            let img = imgData.getAttribute('data-srcset') || imgData.getAttribute('srcset')
+                            if (typeof img != "undefined" && img != null) {
+                                img = img.split(",")
+                                img = img[0].split(" ")[0]
+                            }
                         }
-
+                        
                         const dataHtml = post.querySelector(".data-hora").innerHTML.trim()
                         let dataFormatada = null;
 
