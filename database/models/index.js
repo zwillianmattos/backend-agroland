@@ -1,10 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const config = require('../../app/config/database.js');
-
 const db = {};
-const sequelize = new Sequelize(config[process.env.NODE_ENV || 'development']);
+const sequelize = new Sequelize({
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE,
+    host:  process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
+    port: process.env.DB_PORT,
+});
 
 fs
     .readdirSync(__dirname)
