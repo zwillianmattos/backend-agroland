@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         Thread.hasMany(model.Replies, {
             foreignKey: 'thread',
         })
+
+        Thread.hasMany(model.ThreadLike, {
+            foreignKey: 'threadId',
+        })
     };
 
     return Thread;
