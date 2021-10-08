@@ -24,8 +24,8 @@ module.exports = (sequelize, DataTypes) => {
         //     foreignKey: 'user'
         // })
 
-        Replies.hasMany(model.User, {
-            foreignKey: 'id',
+        Replies.belongsTo(model.User, {
+            foreignKey: 'user',
         })
 
         Replies.belongsTo(model.Thread, {
