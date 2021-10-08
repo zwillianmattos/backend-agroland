@@ -55,12 +55,17 @@ module.exports = async () => {
                         let img = "";
                         if(imgData != "" && imgData != undefined && imgData !== null) {
                             console.log(imgData);
-                            let img = imgData.getAttribute('data-srcset') || imgData.getAttribute('srcset')
+                            img = imgData.getAttribute('data-srcset') || imgData.getAttribute('srcset')
                             if (typeof img != "undefined" && img != null) {
                                 img = img.split(",")
                                 img = img[0].split(" ")[0]
                             }
+                        } else {
+                            if( imgData.getAttribute("src") !== null ) {
+                                img = imgData.getAttribute("src")
+                            }
                         }
+                        
                         
                         const dataHtml = post.querySelector(".data-hora").innerHTML.trim()
                         let dataFormatada = null;

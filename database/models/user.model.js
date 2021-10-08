@@ -57,7 +57,10 @@ module.exports = (sequelize, DataTypes) => {
 
     User.associate = function (models) {
         User.hasMany(models.Thread, { as: 'thread' })
-        User.hasMany(models.Replies, { as: 'replies' })
+        User.hasMany(models.ThreadLike, { as: 'threadId' })
+        
+        User.hasMany(models.Replies, {  foreignKey: 'user' })
+
         User.hasOne(models.ProducerUser, {
             foreignKey: 'id'
         })
