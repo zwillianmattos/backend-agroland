@@ -61,8 +61,10 @@ module.exports = async () => {
                                 img = img[0].split(" ")[0]
                             }
                         } else {
-                            if( imgData.getAttribute("src") !== null ) {
-                                img = imgData.getAttribute("src")
+                            if(imgData != "" && imgData != undefined && imgData !== null) {
+                                if( imgData.getAttribute("src") !== null ) {
+                                    img = imgData.getAttribute("src")
+                                }
                             }
                         }
                         
