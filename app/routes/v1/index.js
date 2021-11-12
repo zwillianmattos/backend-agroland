@@ -10,4 +10,5 @@ router.use('/channel', require('./community/channel'));
 router.use('/news', require('./news'));
 router.use('/finances', require('./finances'));
 router.use('/cultures', require('./cultures'));
+router.use('/upload', require('./upload'));
 module.exports = router;

@@ -11,6 +11,13 @@ services:
             - ./:/usr/backend_plant_care
         links:
             - db
+        environment:
+            DB_USER: root
+            DB_PASSWORD: root
+            DB_DATABASE: bricom_plantcare
+            DB_HOST: host.docker.internal
+            DB_DIALECT: mysql
+            DB_PORT: 3308
     db:
         image: mysql:5.7
         ports:
