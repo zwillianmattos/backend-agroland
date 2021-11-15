@@ -190,7 +190,7 @@ module.exports = {
                 limit: limit,
                 offset: offset,
                 order: [
-                    ['createdAt', 'DESC']
+                    ['createdAt', 'ASC']
                 ]
             })
 
