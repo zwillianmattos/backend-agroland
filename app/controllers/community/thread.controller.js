@@ -109,6 +109,9 @@ module.exports = {
                 include: include,
                 limit: limit,
                 offset: offset,
+                order: [
+                    [ 'createdAt', 'desc'],
+                ]
             })
 
             res.status(200).json({
@@ -189,9 +192,7 @@ module.exports = {
                 include: include,
                 limit: limit,
                 offset: offset,
-                order: [
-                    ['createdAt', 'ASC']
-                ]
+                
             })
 
             res.status(200).json({
