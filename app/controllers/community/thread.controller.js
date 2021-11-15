@@ -189,6 +189,9 @@ module.exports = {
                 include: include,
                 limit: limit,
                 offset: offset,
+                order: [
+                    ['createdAt', 'DESC']
+                ]
             })
 
             res.status(200).json({
