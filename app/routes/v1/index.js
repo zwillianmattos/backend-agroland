@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.use('/user', require('./user'));
+router.use('/calendars', require('./calendars'));
 router.use('/producer_user', require('./producer_user'));
 router.use('/marketplace', require('./marketplace'));
 router.use('/ebooks', require('./education/ebook'));
