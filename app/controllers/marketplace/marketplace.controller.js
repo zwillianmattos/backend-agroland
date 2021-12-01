@@ -81,6 +81,7 @@ module.exports = {
                 description,
                 forma_comercializacao,
                 forma_comercializacao_descricao,
+                excluded
             } = req.body;
 
             const exist = await ProducerUser.findOne({
@@ -96,7 +97,7 @@ module.exports = {
                     title: title,
                     price: price,
                     description: description,
-                    excluded: 0,
+                    excluded: excluded,
                 }, {
                     where: {
                         id: announceId,
