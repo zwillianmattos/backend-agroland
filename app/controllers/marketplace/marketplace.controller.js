@@ -73,7 +73,7 @@ module.exports = {
     async update(req, res) {
         try {
             const user = req.user
-            const announceId = req.params.id
+            const { announceId } = req.params
 
             const {
                 title,
