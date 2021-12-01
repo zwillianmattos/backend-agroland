@@ -76,13 +76,11 @@ module.exports = {
             const announceId = req.params.id
 
             const {
-
                 title,
                 price,
                 description,
                 forma_comercializacao,
                 forma_comercializacao_descricao,
-                product_sell_categories
             } = req.body;
 
             const exist = await ProducerUser.findOne({
@@ -104,7 +102,7 @@ module.exports = {
                     excluded: 0,
                 }, {
                     where: {
-                        id: announceId
+                        productId: announceId
                     }
                 })
                 res.status(200).json({
