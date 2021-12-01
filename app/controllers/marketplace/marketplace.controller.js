@@ -70,7 +70,59 @@ module.exports = {
             });
         }
     },
-    async update(req, res) { },
+    async update(req, res) {
+        try {
+            const user = req.user
+            const announceId = req.params.id
+
+            const {
+
+                title,
+                price,
+                description,
+                forma_comercializacao,
+                forma_comercializacao_descricao,
+                product_sell_categories
+            } = req.body;
+
+            const exist = await ProducerUser.findOne({
+                attributes: ['id'],
+                where: {
+                    user: user.id,
+                }
+            });
+
+            if (typeof exist !== 'undefined' && exist !== null) {
+                // Update
+                const announce = await ProductSells.update({
+                    producerUser: exist.id,
+                    title: title,
+                    price: price,
+                    description: description,
+                    forma_comercializacao: forma_comercializacao,
+                    forma_comercializacao_descricao: forma_comercializacao_descricao,
+                    excluded: 0,
+                }, {
+                    where: {
+                        id: announceId
+                    }
+                })
+                res.status(200).json({
+                    status: true,
+                    message: "Anuncio atualizado com sucesso !",
+                    data: announce
+                })
+            } else {
+                throw ("Ocorreu um erro ao atualizar anuncio !");
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(500).send({
+                status: false,
+                message: error
+            });
+        }
+    },
     async get(req, res) {
         const { announceId } = req.params;
 
