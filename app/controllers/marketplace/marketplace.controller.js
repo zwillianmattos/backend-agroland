@@ -93,16 +93,14 @@ module.exports = {
             if (typeof exist !== 'undefined' && exist !== null) {
                 // Update
                 const announce = await ProductSells.update({
-                    producerUser: exist.id,
                     title: title,
                     price: price,
                     description: description,
-                    forma_comercializacao: forma_comercializacao,
-                    forma_comercializacao_descricao: forma_comercializacao_descricao,
                     excluded: 0,
                 }, {
                     where: {
-                        productId: announceId
+                        id: announceId,
+                        excluded: 0
                     }
                 })
                 res.status(200).json({
