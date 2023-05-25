@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci --if-present
+    - run: npm ci
     - run: npm run build --if-present
 
   deploy: ## <-- this is the new stuff

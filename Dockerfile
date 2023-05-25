@@ -7,13 +7,12 @@ WORKDIR /app
 
 ENV NODE_ENV development
 
-COPY . /app
-
-
 COPY package*.json /app
 
 RUN npm install -g nodemon@1.19.4
 RUN npm install
+
+COPY . /app
 
 
 EXPOSE 3000
