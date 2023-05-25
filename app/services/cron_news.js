@@ -10,7 +10,8 @@ const { slugify } = require("../utils/utils");
 module.exports = async () => {
     if (process.env.enable_crawler == "N")
         return [];
-
+    
+    return [];
     const newsData = await new Promise((resole, reject) => {
 
         console.log("[Loading data from]: Cron")
